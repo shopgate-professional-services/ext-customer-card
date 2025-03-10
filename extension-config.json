@@ -1,0 +1,139 @@
+{
+  "version": "1.0.0-beta.1",
+  "id": "@shopgate-project/customer-card",
+  "components": [
+    {
+      "id": "subscribersCustomerCard",
+      "path": "frontend/pages/CustomerCard/subscriptions.js",
+      "type": "subscribers"
+    },
+    {
+      "id": "NavMenuCustomerCard",
+      "path": "frontend/portals/NavMenuCustomerCard",
+      "target": ["nav-menu.favorites.after", "nav-menu.logout.before"],
+      "type": "portals"
+    },
+    {
+      "id": "TabBarCustomerCard",
+      "path": "frontend/portals/TabBarCustomerCard/index.jsx",
+      "target": "tab-bar.cart.after",
+      "type": "portals"
+    },
+    {
+      "id": "CustomerCard",
+      "path": "frontend/pages/CustomerCard/index.jsx",
+      "target": "app.routes",
+      "type": "portals"
+    }
+  ],
+  "configuration": {
+    "iconSvgContent": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": "<g transform='translate(0, 2)'><path d='M20 3.36719V2.3125C20 1.10438 19.0206 0.125 17.8125 0.125H2.1875C0.979375 0.125 0 1.10438 0 2.3125V3.36719C0 3.47504 0.0874609 3.5625 0.195312 3.5625H19.8047C19.9125 3.5625 20 3.47504 20 3.36719Z'></path><path d='M0 5.00781V11.6875C0 12.8956 0.979375 13.875 2.1875 13.875H17.8125C19.0206 13.875 20 12.8956 20 11.6875V5.00781C20 4.89996 19.9125 4.8125 19.8047 4.8125H0.195312C0.0874609 4.8125 0 4.89996 0 5.00781ZM5 10.125C5 10.4702 4.72016 10.75 4.375 10.75H3.75C3.40484 10.75 3.125 10.4702 3.125 10.125V9.5C3.125 9.15484 3.40484 8.875 3.75 8.875H4.375C4.72016 8.875 5 9.15484 5 9.5V10.125Z'></path></g>",
+      "params": {
+        "type": "string",
+        "label": "Raw SVG markup for the tab bar icon."
+      }
+    },
+    "textHeadline": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": "Deine Kundenkarte",
+      "params": {
+        "type": "string",
+        "label": "Headline text for the customer card."
+      }
+    },
+    "textMenuEntry": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": "Kundenkarte",
+      "params": {
+        "type": "string",
+        "label": "Text for the customer card menu entry."
+      }
+    },
+    "textInfoBlock": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": "Hier einige Informationen.",
+      "params": {
+        "type": "string",
+        "label": "Informational text displayed on the bottom of customer card."
+      }
+    },
+    "colorCodeBackground": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": "#ffffff",
+      "params": {
+        "type": "string",
+        "label": "Background color of the code area."
+      }
+    },
+    "colorSheetBackground": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": "#ffffff",
+      "params": {
+        "type": "string",
+        "label": "Background color of the customer card."
+      }
+    },
+    "colorText": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": "#000000",
+      "params": {
+        "type": "string",
+        "label": "Text color used in the customer card interface."
+      }
+    },
+    "colorCode": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": "#000000",
+      "params": {
+        "type": "string",
+        "label": "Color of the customer card code."
+      }
+    },
+    "logoUrl": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": "https://www.shopgate.com/hubfs/ShopGate/Images/12321321.svg",
+      "params": {
+        "type": "string",
+        "label": "URL of the logo displayed on the customer card."
+      }
+    },
+    "useQrCodeMode": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": true,
+      "params": {
+        "type": "checkbox",
+        "label": "Enable or disable QR code mode for the customer card."
+      }
+    },
+    "barcodeFormat": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": "CODE128",
+      "params": {
+        "type": "text",
+        "label": "Barcode format (e.g., 'CODE128' or 'MSI')."
+      }
+    },
+    "showTabBarEntry": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": true,
+      "params": {
+        "type": "checkbox",
+        "label": "Show or hide the customer card entry in the tab bar."
+      }
+    }
+  }
+}
