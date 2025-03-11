@@ -1,17 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import QRCode from 'react-qr-code';
 import Barcode from 'react-barcode';
-import { useTheme } from '@shopgate/engage/core';
-import {
-  Route,
-  AppBarIOS,
-  AppBarAndroid,
-  CrossIcon,
-} from '@shopgate/engage/components';
-import { themeName } from "@shopgate/pwa-common/helpers/config";
+import { useSelector } from 'react-redux';
+import { useTheme, i18n } from '@shopgate/engage/core';
+import { Route } from '@shopgate/engage/components';
+import { getExternalCustomerNumber, getUserEmail } from '@shopgate/engage/user';
 import { CUSTOMER_CARD } from '../../constants';
-import connect from './connector';
 import styles from './style';
 import {
   textHeadline,
@@ -26,27 +20,19 @@ import {
 
 /**
  * CustomerCard Component - Displays a customer card with either a QR code or barcode.
- * @param {string} props.userCustomerNumber - The customer number used for generating a barcode.
- * @param {string} props.userEmail - The email used for generating a QR code.
- * @param {Function} props.goBack - Callback function triggered when the back button is clicked.
  * @returns {JSX.Element}
  */
-const CustomerCard = ({ userCustomerNumber, userEmail, goBack }) => {
+const CustomerCard = () => {
   const { View, AppBar } = useTheme();
-  const isIos = themeName.includes('ios');
-  const AppBarIcon = isIos
-    ? AppBarIOS.Icon
-    : AppBarAndroid.Icon;
+  const userCustomerNumber = useSelector(getExternalCustomerNumber);
+  const userEmail = useSelector(getUserEmail);
+
   return (
     <View title={textMenuEntry}>
-      <AppBar
-        title={textMenuEntry}
-        left={<div />}
-        right={<AppBarIcon icon={CrossIcon} onClick={goBack} />}
-      />
+      <AppBar title={textMenuEntry} right={<div />} />
       <div className={styles.container}>
-        <article className={`${styles.card} engage__customer__card`} aria-labelledby="customer-card-title">
-          <img className={styles.logo} src={logoUrl} alt="Logo" />
+        <section className={`${styles.card} engage__customer__card`} aria-labelledby="customer-card-title">
+          <img className={styles.logo} src={logoUrl} alt="Logo" aria-hidden />
           <h1 id="customer-card-title" className={styles.headline}>{textHeadline}</h1>
           {useQrCodeMode ? (
             <QRCode
@@ -55,7 +41,8 @@ const CustomerCard = ({ userCustomerNumber, userEmail, goBack }) => {
               fgColor={colorCode}
               bgColor={colorCodeBackground || 'transparent'}
               className={styles.code}
-              aria-label={`QR-Code: ${userEmail}`}
+              role="img"
+              aria-label={i18n.text('customer_card.qr_code', { email: userEmail })}
             />
           ) : (
             userCustomerNumber && (
@@ -64,28 +51,17 @@ const CustomerCard = ({ userCustomerNumber, userEmail, goBack }) => {
                 format={barcodeFormat}
                 displayValue
                 className={styles.code}
-                aria-label={`Barcode: ${userCustomerNumber}`}
+                role="img"
               />
             )
           )}
-          <p className={styles.textInfo}>{textInfoBlock}</p>
-        </article>
+          <p className={styles.textInfo} dangerouslySetInnerHTML={{ __html: textInfoBlock }} />
+        </section>
       </div>
     </View>
   );
 };
 
-CustomerCard.propTypes = {
-  goBack: PropTypes.func.isRequired,
-  userCustomerNumber: PropTypes.string,
-  userEmail: PropTypes.string,
-};
-
-CustomerCard.defaultProps = {
-  userCustomerNumber: '',
-  userEmail: '',
-};
-
 export default () => (
-  <Route pattern={CUSTOMER_CARD} component={connect(CustomerCard)} />
+  <Route pattern={CUSTOMER_CARD} component={CustomerCard} />
 );

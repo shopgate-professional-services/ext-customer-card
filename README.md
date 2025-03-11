@@ -9,15 +9,15 @@ This extension provides a customer card with either a QR code or barcode.
 | Key | Description | Default |
 |------|------------|---------|
 | `iconSvgContent` | Raw SVG markup for the tab bar icon. | SVG Path |
-| `textHeadline` | Headline text for the customer card. | "Deine Kundenkarte" |
-| `textMenuEntry` | Text for the customer card menu entry. | "Kundenkarte" |
-| `textInfoBlock` | Informational text displayed on the customer card. | "Hier einige Informationen." |
+| `textHeadline` | Headline text for the customer card. | "Your customer card" |
+| `textMenuEntry` | Text for the customer card menu entry. | "Customer Card" |
+| `textInfoBlock` | Informational text displayed on the customer card. | "Some information." |
 
 ### Colors
 | Key | Description | Default |
 |------|------------|---------|
 | `colorCodeBackground` | Background color of the customer card code area. If no color is specified, 'transparent' will be used for QR codes. | `#ffffff` |
-| `colorSheetBackground` | Background color of the customer card sheet. | `#ffffff` |
+| `colorCardBackground` | Background color of the customer card sheet. | `#ffffff` |
 | `colorText` | Text color used in the customer card interface. | `#000000` |
 | `colorCode` | Color of the customer card code. | `#000000` |
 
