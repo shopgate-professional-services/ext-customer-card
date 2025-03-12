@@ -10,7 +10,7 @@
     {
       "id": "NavMenuCustomerCard",
       "path": "frontend/portals/NavMenuCustomerCard",
-      "target": "nav-menu.favorites.after",
+      "target": "nav-menu.cart.before",
       "type": "portals"
     },
     {
