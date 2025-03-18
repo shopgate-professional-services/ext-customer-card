@@ -9,9 +9,10 @@ This extension provides a customer card with either a QR code or barcode.
 | Key | Description | Default |
 |------|------------|---------|
 | `iconSvgContent` | Raw SVG markup for the tab bar icon. | SVG Path |
-| `textHeadline` | Headline text for the customer card. | "Your customer card" |
-| `textMenuEntry` | Text for the customer card menu entry. | "Customer Card" |
-| `textInfoBlock` | Informational text displayed on the customer card. | "Some information." |
+| `textHeadline` | Headline text for the customer card. | `Your customer card` |
+| `textAboveCode` | Information text above the code. Supported placeholder: `{mail}`, `{firstName}` and `{lastName}` | `<h1>Customer Card</h1><p>{firstName} {lastName}</p>` |
+| `textBelowCode` | Information text below the code. Supported placeholder: `{mail}`, `{firstName}` and `{lastName}` | `<p>Some information such as user's e-mail address: <strong>{mail}</strong></p>` |
+| `textMenuEntry` | Text for the customer card menu entry. | `Customer Card` |
 
 ### Colors
 | Key | Description | Default |

@@ -40,7 +40,12 @@ const code = css({
   marginBottom: '10px',
 }).toString();
 
-const textInfo = css({
+const textAbove = css({
+  fontSize: '1rem',
+  color: colorText,
+}).toString();
+
+const textBelow = css({
   fontSize: '0.8rem',
   color: colorText,
 }).toString();
@@ -57,6 +62,7 @@ export default {
   card,
   logo,
   code,
-  textInfo,
+  textAbove,
+  textBelow,
   headline,
 };

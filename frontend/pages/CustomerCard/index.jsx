@@ -4,7 +4,7 @@ import Barcode from 'react-barcode';
 import { useSelector } from 'react-redux';
 import { useTheme, i18n } from '@shopgate/engage/core';
 import { Route } from '@shopgate/engage/components';
-import { getExternalCustomerNumber, getUserEmail } from '@shopgate/engage/user';
+import { getExternalCustomerNumber, getUserData } from '@shopgate/engage/user';
 import { CUSTOMER_CARD } from '../../constants';
 import styles from './style';
 import {
@@ -15,8 +15,23 @@ import {
   colorCode,
   useQrCodeMode,
   barcodeFormat,
-  textInfoBlock,
+  textAboveCode,
+  textBelowCode,
 } from '../../config';
+
+/**
+ * Replaces placeholders in the format `{key}` within a string with corresponding values from
+ * the user object.
+ * Only keys listed in `allowedKeys` will be replaced; others remain unchanged.
+ * @param {string} template - The string containing placeholders (e.g., "Hello {firstName}!").
+ * @param {Object} data - The user object.
+ * @param {string[]} allowedKeys - Allowed keys for replacement.
+ * @returns {string}
+ */
+const replacePlaceholders = (template, data, allowedKeys = ['firstName', 'lastName', 'mail']) =>
+  template.replace(/{(.*?)}/g, (_, key) => (
+    allowedKeys.includes(key) ? data[key] || '' : `{${key}}`
+  ));
 
 /**
  * CustomerCard Component - Displays a customer card with either a QR code or barcode.
@@ -25,7 +40,12 @@ import {
 const CustomerCard = () => {
   const { View, AppBar } = useTheme();
   const userCustomerNumber = useSelector(getExternalCustomerNumber);
-  const userEmail = useSelector(getUserEmail);
+  const userData = useSelector(getUserData);
+
+  if (!userData || userData.isFetching) return null;
+
+  const replacedAboveText = replacePlaceholders(textAboveCode, userData);
+  const replacedBelowText = replacePlaceholders(textBelowCode, userData);
 
   return (
     <View title={textMenuEntry}>
@@ -34,15 +54,16 @@ const CustomerCard = () => {
         <section className={`${styles.card} engage__customer__card`} aria-labelledby="customer-card-title">
           <img className={styles.logo} src={logoUrl} alt="Logo" aria-hidden />
           <h1 id="customer-card-title" className={styles.headline}>{textHeadline}</h1>
+          <p className={styles.textAbove} dangerouslySetInnerHTML={{ __html: replacedAboveText }} />
           {useQrCodeMode ? (
             <QRCode
-              value={userEmail || ''}
+              value={userData.mail || ''}
               size={150}
               fgColor={colorCode}
               bgColor={colorCodeBackground || 'transparent'}
               className={styles.code}
               role="img"
-              aria-label={i18n.text('customer_card.qr_code', { email: userEmail })}
+              aria-label={i18n.text('customer_card.qr_code', { email: userData.mail })}
             />
           ) : (
             userCustomerNumber && (
@@ -55,7 +76,7 @@ const CustomerCard = () => {
               />
             )
           )}
-          <p className={styles.textInfo} dangerouslySetInnerHTML={{ __html: textInfoBlock }} />
+          <p className={styles.textBelow} dangerouslySetInnerHTML={{ __html: replacedBelowText }} />
         </section>
       </div>
     </View>
