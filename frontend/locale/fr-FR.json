@@ -1,0 +1,5 @@
+{
+  "customer_card": {
+    "qr_code": "Code QR avec l'e-mail du client: {email}"
+  }
+}

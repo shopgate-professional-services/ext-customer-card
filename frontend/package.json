@@ -1,0 +1,22 @@
+{
+  "name": "@shopgate-project/customer-card",
+  "version": "1.0.0",
+  "description": "This extension provides a customer card with either a QR code or barcode.",
+  "license": "Apache-2.0",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "npm run test -- --watch",
+    "coverage": "jest --coverage",
+    "coverage:watch": "npm run coverage -- --watch"
+  },
+  "devDependencies": {
+    "@shopgate/eslint-config": "^7.22.0",
+    "@shopgate/engage": "^7.22.0",
+    "prop-types": "^15.8.1",
+    "react": "^16.14.0"
+  },
+  "dependencies": {
+    "react-barcode": "^1.5.3",
+    "react-qr-code": "^2.0.15"
+  }
+}
