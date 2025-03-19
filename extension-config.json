@@ -100,7 +100,7 @@
       "default": "<p>Some information such as user's e-mail address: <strong>{mail}</strong></p>",
       "params": {
         "type": "string",
-        "label": "Informational text displayed bewlow the code."
+        "label": "Informational text displayed below the code."
       }
     },
     "colorCodeBackground": {
