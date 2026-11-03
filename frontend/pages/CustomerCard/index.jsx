@@ -58,6 +58,15 @@ const shineSweep = keyframes({
 const getCardColors = (theme, cardStyle) => {
   const { primary, background, text } = theme.palette;
 
+  // A configured card background replaces the card style in every color scheme. The text color
+  // is derived from that background the same way the theme does it for the primary color.
+  if (config.colorCardBackground) {
+    return {
+      background: config.colorCardBackground,
+      color: theme.contrastColor(config.colorCardBackground),
+    };
+  }
+
   if (cardStyle === CARD_STYLE_TINTED) {
     return {
       background: `color-mix(in srgb, ${primary.main} 14%, ${background.surface})`,
@@ -105,7 +114,6 @@ const useStyles = makeStyles()((theme) => {
       alignItems: 'center',
       textAlign: 'center',
       ...cardColors,
-      ...(config.colorCardBackground && { background: config.colorCardBackground }),
       ...(config.colorText && { color: config.colorText }),
       animation: `${cardIn} 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both`,
       '@media (prefers-reduced-motion: reduce)': {
@@ -193,6 +201,18 @@ const noExtraScrollSpace = {
 };
 
 /**
+ * Escapes a customer value, so it is inserted as text into the configured HTML.
+ * @param {*} value The value.
+ * @returns {string}
+ */
+const escapeHtml = (value) => String(value ?? '')
+  .replace(/&/g, '&amp;')
+  .replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;')
+  .replace(/'/g, '&#39;');
+
+/**
  * Replaces placeholders in the format `{key}` within a string with corresponding values from
  * the user object.
  * Only keys listed in `allowedKeys` will be replaced; others remain unchanged.
@@ -203,7 +223,7 @@ const noExtraScrollSpace = {
  */
 const replacePlaceholders = (template = '', data, allowedKeys = ['firstName', 'lastName', 'mail']) =>
   template.replace(/{(.*?)}/g, (_, key) => (
-    allowedKeys.includes(key) ? data[key] || '' : `{${key}}`
+    allowedKeys.includes(key) ? escapeHtml(data[key]) : `{${key}}`
   ));
 
 /**

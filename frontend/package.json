@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "@shopgate/eslint-config": "^7.22.0",
-    "@shopgate/engage": "^7.22.0",
+    "@shopgate/engage": "^7.32.0",
     "prop-types": "^15.8.1",
     "react": "^16.14.0"
   },

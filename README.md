@@ -39,10 +39,10 @@ Every color and the logo can be overridden with the configs below. An empty valu
 ### Design
 | Key | Description | Default |
 |------|------------|---------|
-| `cardStyle` | How the card uses the primary color of the app theme: `gradient` (gradient of the primary color), `solid` (primary color) or `tinted` (primary color as a light tint, with the regular text colors). | `gradient` |
+| `cardStyle` | How the card uses the primary color of the app theme: `gradient` (gradient of the primary color), `solid` (primary color) or `tinted` (primary color as a soft tint of the page background, with the regular text colors). | `gradient` |
 | `showShine` | Lets a light shine sweep once over the card after it appeared. | `false` |
 | `logoUrl` | URL of the logo on the card. Empty: shop logo of the app. | empty |
-| `colorCardBackground` | Card background. Overrides `cardStyle`. Empty: taken from the app theme. | empty |
+| `colorCardBackground` | Card background. Overrides `cardStyle` in light and dark mode; the text color is then derived from this background. Empty: taken from the app theme. | empty |
 | `colorText` | Text color on the card. Empty: taken from the app theme. | empty |
 | `colorCode` | Color of the QR code or barcode. Empty: black. | empty |
 | `colorCodeBackground` | Background of the code area. Empty: white. | empty |
