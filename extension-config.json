@@ -141,53 +141,53 @@
         "description": "Lets a light shine sweep once over the card after it appeared."
       }
     },
-    "colorCodeBackground": {
+    "overrideColorCodeBackground": {
       "type": "admin",
       "destination": "frontend",
-      "default": "",
+      "default": null,
       "params": {
         "type": "string",
-        "label": "Code background color",
+        "label": "Override: code background color",
         "description": "Background of the QR code or barcode area. Leave empty for white."
       }
     },
-    "colorCardBackground": {
+    "overrideColorCardBackground": {
       "type": "admin",
       "destination": "frontend",
-      "default": "",
+      "default": null,
       "params": {
         "type": "string",
-        "label": "Card background color",
-        "description": "Overrides the card style. Leave empty to use the primary color of the app theme."
+        "label": "Override: card background color",
+        "description": "Replaces the card style. The text color is derived from it. Leave empty to use the primary color of the app theme."
       }
     },
-    "colorText": {
+    "overrideColorText": {
       "type": "admin",
       "destination": "frontend",
-      "default": "",
+      "default": null,
       "params": {
         "type": "string",
-        "label": "Card text color",
+        "label": "Override: card text color",
         "description": "Leave empty to use the matching text color of the app theme."
       }
     },
-    "colorCode": {
+    "overrideColorCode": {
       "type": "admin",
       "destination": "frontend",
-      "default": "",
+      "default": null,
       "params": {
         "type": "string",
-        "label": "Code color",
+        "label": "Override: code color",
         "description": "Color of the QR code or barcode. Leave empty for black."
       }
     },
-    "logoUrl": {
+    "overrideLogoUrl": {
       "type": "admin",
       "destination": "frontend",
-      "default": "",
+      "default": null,
       "params": {
         "type": "string",
-        "label": "Logo URL",
+        "label": "Override: logo URL",
         "description": "Leave empty to use the shop logo of the app. Set it, for example, to a white logo that is easier to read on the card."
       }
     },

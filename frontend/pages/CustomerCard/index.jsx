@@ -13,15 +13,34 @@ import config from '../../config.json';
 const {
   textHeadline,
   textMenuEntry,
-  logoUrl,
-  colorCode,
-  colorCodeBackground,
   useQrCodeMode,
   barcodeFormat,
   textAboveCode,
   textBelowCode,
   showShine,
 } = config;
+
+/**
+ * Reads an override config. Null, empty values and leftover quotes ("" or '') count as not set.
+ * @param {*} value The config value.
+ * @returns {string|null}
+ */
+const getOverride = (value) => {
+  if (typeof value !== 'string') {
+    return null;
+  }
+
+  const trimmed = value.trim();
+  return ['', 'null', '""', "''"].includes(trimmed) ? null : trimmed;
+};
+
+const overrides = {
+  cardBackground: getOverride(config.overrideColorCardBackground),
+  text: getOverride(config.overrideColorText),
+  code: getOverride(config.overrideColorCode),
+  codeBackground: getOverride(config.overrideColorCodeBackground),
+  logoUrl: getOverride(config.overrideLogoUrl),
+};
 
 const CARD_STYLE_GRADIENT = 'gradient';
 const CARD_STYLE_SOLID = 'solid';
@@ -60,10 +79,10 @@ const getCardColors = (theme, cardStyle) => {
 
   // A configured card background replaces the card style in every color scheme. The text color
   // is derived from that background the same way the theme does it for the primary color.
-  if (config.colorCardBackground) {
+  if (overrides.cardBackground) {
     return {
-      background: config.colorCardBackground,
-      color: theme.contrastColor(config.colorCardBackground),
+      background: overrides.cardBackground,
+      color: theme.contrastColor(overrides.cardBackground),
     };
   }
 
@@ -114,7 +133,7 @@ const useStyles = makeStyles()((theme) => {
       alignItems: 'center',
       textAlign: 'center',
       ...cardColors,
-      ...(config.colorText && { color: config.colorText }),
+      ...(overrides.text && { color: overrides.text }),
       animation: `${cardIn} 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both`,
       '@media (prefers-reduced-motion: reduce)': {
         animation: 'none',
@@ -143,7 +162,7 @@ const useStyles = makeStyles()((theme) => {
       margin: theme.spacing(2, 'auto'),
       padding: theme.spacing(1.5),
       borderRadius: 12,
-      background: config.colorCodeBackground || '#ffffff',
+      background: overrides.codeBackground || '#ffffff',
       animation: `${fadeIn} 300ms ease-out 180ms both`,
       '@media (prefers-reduced-motion: reduce)': {
         animation: 'none',
@@ -253,9 +272,9 @@ const CustomerCard = () => {
   }, [dispatch, hasCustomer, isUserLoaded]);
 
   // The logo config only overrides the shop logo from the app config.
-  const logo = logoUrl || appConfig.logo || appConfig.logoFallback;
-  const codeColor = colorCode || '#000000';
-  const codeBackground = colorCodeBackground || '#ffffff';
+  const logo = overrides.logoUrl || appConfig.logo || appConfig.logoFallback;
+  const codeColor = overrides.code || '#000000';
+  const codeBackground = overrides.codeBackground || '#ffffff';
 
   return (
     <View title={textMenuEntry}>

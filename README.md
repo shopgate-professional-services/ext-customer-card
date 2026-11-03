@@ -22,9 +22,9 @@ By default the card follows the app theme, so it needs no colors or logo to be c
 - **Code:** black on a white area, so scanners at the checkout can read it reliably, also in dark mode.
 - **Animation:** the card slides in from the bottom when the page opens. Customers who turned on "Reduce motion" on their device see no animation.
 
-Every color and the logo can be overridden with the configs below. An empty value means "use the default".
+Every color and the logo can be overridden with the `override…` configs below. They default to `null`. `null`, an empty field and `""` all mean "not set", so the default from above is used.
 
-> The shop logo is designed for the app header. If it is hard to read on the card (for example a colored logo on a card in the same color), set `logoUrl` to a logo that fits, for example a white version.
+> The shop logo is designed for the app header. If it is hard to read on the card (for example a colored logo on a card in the same color), set `overrideLogoUrl` to a logo that fits, for example a white version.
 
 ## Configuration
 
@@ -41,11 +41,11 @@ Every color and the logo can be overridden with the configs below. An empty valu
 |------|------------|---------|
 | `cardStyle` | How the card uses the primary color of the app theme: `gradient` (gradient of the primary color), `solid` (primary color) or `tinted` (primary color as a soft tint of the page background, with the regular text colors). | `gradient` |
 | `showShine` | Lets a light shine sweep once over the card after it appeared. | `false` |
-| `logoUrl` | URL of the logo on the card. Empty: shop logo of the app. | empty |
-| `colorCardBackground` | Card background. Overrides `cardStyle` in light and dark mode; the text color is then derived from this background. Empty: taken from the app theme. | empty |
-| `colorText` | Text color on the card. Empty: taken from the app theme. | empty |
-| `colorCode` | Color of the QR code or barcode. Empty: black. | empty |
-| `colorCodeBackground` | Background of the code area. Empty: white. | empty |
+| `overrideLogoUrl` | URL of the logo on the card. Not set: shop logo of the app. | `null` |
+| `overrideColorCardBackground` | Card background. Replaces `cardStyle` in light and dark mode; the text color is then derived from this background. Not set: taken from the app theme. | `null` |
+| `overrideColorText` | Text color on the card. Not set: taken from the app theme. | `null` |
+| `overrideColorCode` | Color of the QR code or barcode. Not set: black. | `null` |
+| `overrideColorCodeBackground` | Background of the code area. Not set: white. | `null` |
 | `iconSvgContent` | Raw SVG markup for the menu and tab bar icon. | Card icon |
 
 ### Function
@@ -56,7 +56,7 @@ Every color and the logo can be overridden with the configs below. An empty valu
 | `showTabBarEntry` | Show the customer card entry in the tab bar. | `true` |
 
 ### Upgrading from 1.x
-Version 1.x stored fixed colors (`#ffffff`, `#000000`) and a fixed logo URL. If these values are still set in the extension configuration, they keep overriding the theme. Clear `colorCardBackground`, `colorText`, `colorCode`, `colorCodeBackground` and `logoUrl` to use the app theme.
+Version 2.0 renamed the color and logo configs to `override…` and no longer reads the old keys `colorCardBackground`, `colorText`, `colorCode`, `colorCodeBackground` and `logoUrl`. Values stored for them in 1.x are ignored, so the card uses the app theme right away. To keep a custom color or logo, set the matching `override…` config.
 
 ## About Shopgate
 
