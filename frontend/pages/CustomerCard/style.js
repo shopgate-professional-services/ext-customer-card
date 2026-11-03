@@ -5,26 +5,27 @@ import {
   colorText,
 } from '../../config';
 
+// Fills the visible content area below the app bar and centers the card in it.
 const container = css({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  height: '100vh',
+  minHeight: '100%',
+  boxSizing: 'border-box',
   backgroundColor: themeColors.background,
   padding: '16px',
 }).toString();
 
+// The card height follows its content, so no empty space is added above or below.
 const card = css({
-  width: '300px',
-  height: '500px',
+  width: '100%',
   maxWidth: '350px',
-  maxHeight: '600px',
+  boxSizing: 'border-box',
   backgroundColor: colorCardBackground,
   borderRadius: '12px',
   boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)',
   display: 'flex',
   flexDirection: 'column',
-  justifyContent: 'space-between',
   alignItems: 'center',
   textAlign: 'center',
   padding: '20px',

@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import QRCode from 'react-qr-code';
 import Barcode from 'react-barcode';
-import { useSelector } from 'react-redux';
-import { useTheme, i18n } from '@shopgate/engage/core';
+import { useSelector, useDispatch } from 'react-redux';
+import { useTheme, i18n, historyReplace } from '@shopgate/engage/core';
 import { Route } from '@shopgate/engage/components';
-import { getExternalCustomerNumber, getUserData } from '@shopgate/engage/user';
+import { getExternalCustomerNumber, getUserData, LOGIN_PATH } from '@shopgate/engage/user';
 import { CUSTOMER_CARD } from '../../constants';
 import styles from './style';
 import {
@@ -41,8 +41,24 @@ const CustomerCard = () => {
   const { View, AppBar } = useTheme();
   const userCustomerNumber = useSelector(getExternalCustomerNumber);
   const userData = useSelector(getUserData);
+  const dispatch = useDispatch();
 
-  if (!userData || userData.isFetching) return null;
+  // The router only checks the login flag. Some login integrations (e.g. Shopify headless login
+  // with an expired session) report a successful user request without a customer, which sets
+  // that flag. Only show the card for a loaded customer, otherwise send the user to the login.
+  const isUserLoaded = !!userData && userData.isFetching === false;
+  const hasCustomer = isUserLoaded && !!userData.id;
+
+  useEffect(() => {
+    if (isUserLoaded && !hasCustomer) {
+      dispatch(historyReplace({
+        pathname: LOGIN_PATH,
+        state: { redirect: { location: CUSTOMER_CARD } },
+      }));
+    }
+  }, [dispatch, hasCustomer, isUserLoaded]);
+
+  if (!hasCustomer) return null;
 
   const replacedAboveText = replacePlaceholders(textAboveCode, userData);
   const replacedBelowText = replacePlaceholders(textBelowCode, userData);
