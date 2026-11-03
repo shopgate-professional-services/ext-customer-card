@@ -1,6 +1,6 @@
 {
   "name": "@shopgate-project/customer-card",
-  "version": "1.0.0",
+  "version": "2.0.0-beta.1",
   "description": "This extension provides a customer card with either a QR code or barcode.",
   "license": "Apache-2.0",
   "scripts": {
