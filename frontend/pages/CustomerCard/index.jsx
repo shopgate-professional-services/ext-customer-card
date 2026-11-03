@@ -4,20 +4,193 @@ import Barcode from 'react-barcode';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTheme, i18n, historyReplace } from '@shopgate/engage/core';
 import { Route } from '@shopgate/engage/components';
+import { GlobalStyles, makeStyles, keyframes } from '@shopgate/engage/styles';
+import appConfig from '@shopgate/pwa-common/helpers/config';
 import { getExternalCustomerNumber, getUserData, LOGIN_PATH } from '@shopgate/engage/user';
 import { CUSTOMER_CARD } from '../../constants';
-import styles from './style';
-import {
+import config from '../../config.json';
+
+const {
   textHeadline,
   textMenuEntry,
   logoUrl,
-  colorCodeBackground,
   colorCode,
+  colorCodeBackground,
   useQrCodeMode,
   barcodeFormat,
   textAboveCode,
   textBelowCode,
-} from '../../config';
+  showShine,
+} = config;
+
+const CARD_STYLE_GRADIENT = 'gradient';
+const CARD_STYLE_SOLID = 'solid';
+const CARD_STYLE_TINTED = 'tinted';
+
+const cardIn = keyframes({
+  '0%': {
+    opacity: 0,
+    transform: 'translateY(32px) scale(0.98)',
+  },
+  '100%': {
+    opacity: 1,
+    transform: 'none',
+  },
+});
+
+const fadeIn = keyframes({
+  '0%': { opacity: 0 },
+  '100%': { opacity: 1 },
+});
+
+const shineSweep = keyframes({
+  '0%': { left: '-60%' },
+  '100%': { left: '120%' },
+});
+
+/**
+ * Card background and text color per card style. Colors come from the theme, so the card follows
+ * the merchant's primary color and the light / dark color scheme. The color configs override them.
+ * @param {Object} theme The theme.
+ * @param {string} cardStyle The configured card style.
+ * @returns {Object}
+ */
+const getCardColors = (theme, cardStyle) => {
+  const { primary, background, text } = theme.palette;
+
+  if (cardStyle === CARD_STYLE_TINTED) {
+    return {
+      background: `color-mix(in srgb, ${primary.main} 14%, ${background.surface})`,
+      color: text.primary,
+      ...theme.applyStyles('dark', {
+        background: `color-mix(in srgb, ${primary.main} 24%, ${background.surface})`,
+      }),
+    };
+  }
+
+  if (cardStyle === CARD_STYLE_SOLID) {
+    return {
+      background: primary.main,
+      color: primary.contrastText,
+    };
+  }
+
+  return {
+    background: `linear-gradient(135deg, ${primary.main} 0%, ${theme.darken(primary.main, 0.25)} 100%)`,
+    color: primary.contrastText,
+  };
+};
+
+const useStyles = makeStyles()((theme) => {
+  const cardColors = getCardColors(theme, config.cardStyle);
+
+  return {
+    container: {
+      display: 'flex',
+      flexGrow: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: theme.spacing(2),
+    },
+    card: {
+      position: 'relative',
+      overflow: 'hidden',
+      width: '100%',
+      maxWidth: 350,
+      boxSizing: 'border-box',
+      borderRadius: 16,
+      padding: theme.spacing(3, 2.5),
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      textAlign: 'center',
+      ...cardColors,
+      ...(config.colorCardBackground && { background: config.colorCardBackground }),
+      ...(config.colorText && { color: config.colorText }),
+      animation: `${cardIn} 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both`,
+      '@media (prefers-reduced-motion: reduce)': {
+        animation: 'none',
+      },
+    },
+    logo: {
+      display: 'block',
+      maxWidth: '70%',
+      maxHeight: 44,
+      marginBottom: theme.spacing(2),
+    },
+    headline: {
+      fontSize: '1.0625rem',
+      fontWeight: 700,
+      margin: 0,
+    },
+    textAbove: {
+      fontSize: '0.9375rem',
+      opacity: 0.85,
+      '& p': {
+        margin: theme.spacing(0.5, 0, 0),
+      },
+    },
+    code: {
+      boxSizing: 'border-box',
+      margin: theme.spacing(2, 'auto'),
+      padding: theme.spacing(1.5),
+      borderRadius: 12,
+      background: config.colorCodeBackground || '#ffffff',
+      animation: `${fadeIn} 300ms ease-out 180ms both`,
+      '@media (prefers-reduced-motion: reduce)': {
+        animation: 'none',
+      },
+      '& svg': {
+        display: 'block',
+        maxWidth: '100%',
+        height: 'auto',
+      },
+    },
+    qrCode: {
+      width: '62%',
+      '& svg': {
+        width: '100%',
+      },
+    },
+    textBelow: {
+      fontSize: '0.8125rem',
+      opacity: 0.85,
+      wordBreak: 'break-word',
+      '& p': {
+        margin: 0,
+      },
+    },
+    shine: {
+      position: 'absolute',
+      inset: 0,
+      pointerEvents: 'none',
+      overflow: 'hidden',
+      borderRadius: 'inherit',
+      '&::after': {
+        content: '""',
+        position: 'absolute',
+        top: '-50%',
+        bottom: '-50%',
+        left: '-60%',
+        width: '45%',
+        background: 'linear-gradient(100deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.38) 50%, rgba(255,255,255,0) 100%)',
+        transform: 'rotate(8deg)',
+        animation: `${shineSweep} 900ms ease-in-out 520ms both`,
+      },
+      '@media (prefers-reduced-motion: reduce)': {
+        display: 'none',
+      },
+    },
+  };
+});
+
+// The core keeps every iOS page a few pixels scrollable. The card fits the screen, so only
+// long texts should make the page scroll.
+const noExtraScrollSpace = {
+  '.engage__view__content.route__customer_card': {
+    '--extra-ios-scroll-space': '0px !important',
+  },
+};
 
 /**
  * Replaces placeholders in the format `{key}` within a string with corresponding values from
@@ -28,7 +201,7 @@ import {
  * @param {string[]} allowedKeys - Allowed keys for replacement.
  * @returns {string}
  */
-const replacePlaceholders = (template, data, allowedKeys = ['firstName', 'lastName', 'mail']) =>
+const replacePlaceholders = (template = '', data, allowedKeys = ['firstName', 'lastName', 'mail']) =>
   template.replace(/{(.*?)}/g, (_, key) => (
     allowedKeys.includes(key) ? data[key] || '' : `{${key}}`
   ));
@@ -39,6 +212,7 @@ const replacePlaceholders = (template, data, allowedKeys = ['firstName', 'lastNa
  */
 const CustomerCard = () => {
   const { View, AppBar } = useTheme();
+  const { classes, cx } = useStyles();
   const userCustomerNumber = useSelector(getExternalCustomerNumber);
   const userData = useSelector(getUserData);
   const dispatch = useDispatch();
@@ -58,43 +232,57 @@ const CustomerCard = () => {
     }
   }, [dispatch, hasCustomer, isUserLoaded]);
 
-  if (!hasCustomer) return null;
-
-  const replacedAboveText = replacePlaceholders(textAboveCode, userData);
-  const replacedBelowText = replacePlaceholders(textBelowCode, userData);
+  // The logo config only overrides the shop logo from the app config.
+  const logo = logoUrl || appConfig.logo || appConfig.logoFallback;
+  const codeColor = colorCode || '#000000';
+  const codeBackground = colorCodeBackground || '#ffffff';
 
   return (
     <View title={textMenuEntry}>
+      <GlobalStyles styles={noExtraScrollSpace} />
       <AppBar title={textMenuEntry} right={<div />} />
-      <div className={styles.container}>
-        <section className={`${styles.card} engage__customer__card`} aria-labelledby="customer-card-title">
-          <img className={styles.logo} src={logoUrl} alt="Logo" aria-hidden />
-          <h1 id="customer-card-title" className={styles.headline}>{textHeadline}</h1>
-          <p className={styles.textAbove} dangerouslySetInnerHTML={{ __html: replacedAboveText }} />
-          {useQrCodeMode ? (
-            <QRCode
-              value={userData.mail || ''}
-              size={150}
-              fgColor={colorCode}
-              bgColor={colorCodeBackground || 'transparent'}
-              className={styles.code}
-              role="img"
-              aria-label={i18n.text('customer_card.qr_code', { email: userData.mail })}
+      {hasCustomer && (
+        <div className={classes.container}>
+          <section className={cx(classes.card, 'engage__customer__card')} aria-labelledby="customer-card-title">
+            {logo && <img className={classes.logo} src={logo} alt={appConfig.shopName || ''} />}
+            <h1 id="customer-card-title" className={classes.headline}>{textHeadline}</h1>
+            <div
+              className={classes.textAbove}
+              dangerouslySetInnerHTML={{ __html: replacePlaceholders(textAboveCode, userData) }}
             />
-          ) : (
-            userCustomerNumber && (
-              <Barcode
-                value={userCustomerNumber}
-                format={barcodeFormat}
-                displayValue
-                className={styles.code}
-                role="img"
-              />
-            )
-          )}
-          <p className={styles.textBelow} dangerouslySetInnerHTML={{ __html: replacedBelowText }} />
-        </section>
-      </div>
+            {useQrCodeMode ? (
+              <div className={cx(classes.code, classes.qrCode)}>
+                <QRCode
+                  value={userData.mail || ''}
+                  size={150}
+                  fgColor={codeColor}
+                  bgColor={codeBackground}
+                  role="img"
+                  aria-label={i18n.text('customer_card.qr_code', { email: userData.mail })}
+                />
+              </div>
+            ) : (
+              userCustomerNumber && (
+                <div className={classes.code}>
+                  <Barcode
+                    value={userCustomerNumber}
+                    format={barcodeFormat}
+                    lineColor={codeColor}
+                    background={codeBackground}
+                    displayValue
+                    role="img"
+                  />
+                </div>
+              )
+            )}
+            <div
+              className={classes.textBelow}
+              dangerouslySetInnerHTML={{ __html: replacePlaceholders(textBelowCode, userData) }}
+            />
+            {showShine && <div className={classes.shine} aria-hidden />}
+          </section>
+        </div>
+      )}
     </View>
   );
 };

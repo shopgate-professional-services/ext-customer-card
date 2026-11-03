@@ -9,6 +9,9 @@
     "coverage": "jest --coverage",
     "coverage:watch": "npm run coverage -- --watch"
   },
+  "peerDependencies": {
+    "@shopgate/engage": ">=7.32.0"
+  },
   "devDependencies": {
     "@shopgate/eslint-config": "^7.22.0",
     "@shopgate/engage": "^7.22.0",

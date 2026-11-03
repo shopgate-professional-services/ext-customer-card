@@ -103,49 +103,92 @@
         "label": "Informational text displayed below the code."
       }
     },
+    "cardStyle": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": "gradient",
+      "params": {
+        "type": "select",
+        "label": "Card style",
+        "description": "How the card uses the primary color of the app theme.",
+        "required": true,
+        "options": {
+          "multiple": false,
+          "options": [
+            {
+              "label": "Gradient of the primary color",
+              "value": "gradient"
+            },
+            {
+              "label": "Primary color",
+              "value": "solid"
+            },
+            {
+              "label": "Primary color as a light tint",
+              "value": "tinted"
+            }
+          ]
+        }
+      }
+    },
+    "showShine": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": false,
+      "params": {
+        "type": "checkbox",
+        "label": "Shine effect",
+        "description": "Lets a light shine sweep once over the card after it appeared."
+      }
+    },
     "colorCodeBackground": {
       "type": "admin",
       "destination": "frontend",
-      "default": "#ffffff",
+      "default": "",
       "params": {
         "type": "string",
-        "label": "Background color of the code area."
+        "label": "Code background color",
+        "description": "Background of the QR code or barcode area. Leave empty for white."
       }
     },
     "colorCardBackground": {
       "type": "admin",
       "destination": "frontend",
-      "default": "#ffffff",
+      "default": "",
       "params": {
         "type": "string",
-        "label": "Background color of the customer card."
+        "label": "Card background color",
+        "description": "Overrides the card style. Leave empty to use the primary color of the app theme."
       }
     },
     "colorText": {
       "type": "admin",
       "destination": "frontend",
-      "default": "#000000",
+      "default": "",
       "params": {
         "type": "string",
-        "label": "Text color used in the customer card interface."
+        "label": "Card text color",
+        "description": "Leave empty to use the matching text color of the app theme."
       }
     },
     "colorCode": {
       "type": "admin",
       "destination": "frontend",
-      "default": "#000000",
+      "default": "",
       "params": {
         "type": "string",
-        "label": "Color of the customer card code."
+        "label": "Code color",
+        "description": "Color of the QR code or barcode. Leave empty for black."
       }
     },
     "logoUrl": {
       "type": "admin",
       "destination": "frontend",
-      "default": "https://www.shopgate.com/hubfs/ShopGate/Images/12321321.svg",
+      "default": "",
       "params": {
         "type": "string",
-        "label": "URL of the logo displayed on the customer card."
+        "label": "Logo URL",
+        "description": "Leave empty to use the shop logo of the app. Set it, for example, to a white logo that is easier to read on the card."
       }
     },
     "useQrCodeMode": {
