@@ -4,7 +4,9 @@ import { css } from 'glamor';
 import CustomerCardIcon from '../../components/CustomerCardIcon';
 import withNavigationHandler from '../../hocs/withNavigationHandler';
 import { CUSTOMER_CARD } from '../../constants';
-import { textMenuEntry, showTabBarEntry } from '../../config';
+import config from '../../config.json';
+
+const { textMenuEntry, showTabBarEntry } = config;
 
 const tabItemIcon = css({
   height: 24,

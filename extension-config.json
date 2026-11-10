@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "2.0.0",
   "id": "@shopgate-project/customer-card",
   "components": [
     {
@@ -103,49 +103,92 @@
         "label": "Informational text displayed below the code."
       }
     },
-    "colorCodeBackground": {
+    "cardStyle": {
       "type": "admin",
       "destination": "frontend",
-      "default": "#ffffff",
+      "default": "gradient",
       "params": {
-        "type": "string",
-        "label": "Background color of the code area."
+        "type": "select",
+        "label": "Card style",
+        "description": "How the card uses the primary color of the app theme.",
+        "required": true,
+        "options": {
+          "multiple": false,
+          "options": [
+            {
+              "label": "Gradient of the primary color",
+              "value": "gradient"
+            },
+            {
+              "label": "Primary color",
+              "value": "solid"
+            },
+            {
+              "label": "Primary color as a soft tint",
+              "value": "tinted"
+            }
+          ]
+        }
       }
     },
-    "colorCardBackground": {
+    "showShine": {
       "type": "admin",
       "destination": "frontend",
-      "default": "#ffffff",
+      "default": false,
       "params": {
-        "type": "string",
-        "label": "Background color of the customer card."
+        "type": "checkbox",
+        "label": "Shine effect",
+        "description": "Lets a light shine sweep once over the card after it appeared."
       }
     },
-    "colorText": {
+    "overrideColorCodeBackground": {
       "type": "admin",
       "destination": "frontend",
-      "default": "#000000",
+      "default": null,
       "params": {
         "type": "string",
-        "label": "Text color used in the customer card interface."
+        "label": "Override: code background color",
+        "description": "Background of the QR code or barcode area. Leave empty for white."
       }
     },
-    "colorCode": {
+    "overrideColorCardBackground": {
       "type": "admin",
       "destination": "frontend",
-      "default": "#000000",
+      "default": null,
       "params": {
         "type": "string",
-        "label": "Color of the customer card code."
+        "label": "Override: card background color",
+        "description": "Replaces the card style. The text color is derived from it. Leave empty to use the primary color of the app theme."
       }
     },
-    "logoUrl": {
+    "overrideColorText": {
       "type": "admin",
       "destination": "frontend",
-      "default": "https://www.shopgate.com/hubfs/ShopGate/Images/12321321.svg",
+      "default": null,
       "params": {
         "type": "string",
-        "label": "URL of the logo displayed on the customer card."
+        "label": "Override: card text color",
+        "description": "Leave empty to use the matching text color of the app theme."
+      }
+    },
+    "overrideColorCode": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": null,
+      "params": {
+        "type": "string",
+        "label": "Override: code color",
+        "description": "Color of the QR code or barcode. Leave empty for black."
+      }
+    },
+    "overrideLogoUrl": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": null,
+      "params": {
+        "type": "string",
+        "label": "Override: logo URL",
+        "description": "Leave empty to use the shop logo of the app. Set it, for example, to a white logo that is easier to read on the card."
       }
     },
     "useQrCodeMode": {

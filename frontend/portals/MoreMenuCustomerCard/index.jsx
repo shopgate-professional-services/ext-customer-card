@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import { themeName } from '@shopgate/pwa-common/helpers/config';
 import CustomerCardIcon from '../../components/CustomerCardIcon';
 import withNavigationHandler from '../../hocs/withNavigationHandler';
-import { textMenuEntry } from '../../config';
+import config from '../../config.json';
+
+const { textMenuEntry } = config;
 
 const isIos = themeName.includes('ios');
 
