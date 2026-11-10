@@ -86,27 +86,27 @@ const getCardColors = (theme, cardStyle) => {
     };
   }
 
-  if (cardStyle === CARD_STYLE_TINTED) {
-    return {
-      background: `color-mix(in srgb, ${primary.main} 14%, ${background.surface})`,
-      color: text.primary,
-      ...theme.applyStyles('dark', {
-        background: `color-mix(in srgb, ${primary.main} 24%, ${background.surface})`,
-      }),
-    };
+  switch (cardStyle) {
+    case CARD_STYLE_TINTED:
+      return {
+        background: `color-mix(in srgb, ${primary.main} 14%, ${background.surface})`,
+        color: text.primary,
+        ...theme.applyStyles('dark', {
+          background: `color-mix(in srgb, ${primary.main} 24%, ${background.surface})`,
+        }),
+      };
+    case CARD_STYLE_SOLID:
+      return {
+        background: primary.main,
+        color: primary.contrastText,
+      };
+    case CARD_STYLE_GRADIENT:
+    default:
+      return {
+        background: `linear-gradient(135deg, ${primary.main} 0%, ${theme.darken(primary.main, 0.25)} 100%)`,
+        color: primary.contrastText,
+      };
   }
-
-  if (cardStyle === CARD_STYLE_SOLID) {
-    return {
-      background: primary.main,
-      color: primary.contrastText,
-    };
-  }
-
-  return {
-    background: `linear-gradient(135deg, ${primary.main} 0%, ${theme.darken(primary.main, 0.25)} 100%)`,
-    color: primary.contrastText,
-  };
 };
 
 const useStyles = makeStyles()((theme) => {
@@ -224,7 +224,7 @@ const noExtraScrollSpace = {
  * @param {*} value The value.
  * @returns {string}
  */
-const escapeHtml = (value) => String(value ?? '')
+const escapeHtml = value => String(value ?? '')
   .replace(/&/g, '&amp;')
   .replace(/</g, '&lt;')
   .replace(/>/g, '&gt;')
@@ -235,13 +235,13 @@ const escapeHtml = (value) => String(value ?? '')
  * Replaces placeholders in the format `{key}` within a string with corresponding values from
  * the user object.
  * Only keys listed in `allowedKeys` will be replaced; others remain unchanged.
- * @param {string} template - The string containing placeholders (e.g., "Hello {firstName}!").
+ * @param {string|null} template - The string containing placeholders (e.g., "Hello {firstName}!").
  * @param {Object} data - The user object.
  * @param {string[]} allowedKeys - Allowed keys for replacement.
  * @returns {string}
  */
-const replacePlaceholders = (template = '', data, allowedKeys = ['firstName', 'lastName', 'mail']) =>
-  template.replace(/{(.*?)}/g, (_, key) => (
+const replacePlaceholders = (template, data, allowedKeys = ['firstName', 'lastName', 'mail']) =>
+  String(template ?? '').replace(/{(.*?)}/g, (_, key) => (
     allowedKeys.includes(key) ? escapeHtml(data[key]) : `{${key}}`
   ));
 
@@ -256,9 +256,11 @@ const CustomerCard = () => {
   const userData = useSelector(getUserData);
   const dispatch = useDispatch();
 
-  // The router only checks the login flag. Some login integrations (e.g. Shopify headless login
-  // with an expired session) report a successful user request without a customer, which sets
-  // that flag. Only show the card for a loaded customer, otherwise send the user to the login.
+  // The router only checks the persisted login flag when the page opens. After an app start with
+  // an expired session (e.g. Shopify headless login) that flag is still set until the user request
+  // fails. Only show the card for a loaded customer, otherwise send the user to the login.
+  // A logout while the page is open needs no handling here: the core resets the history to the
+  // start page when a protected route is active.
   const isUserLoaded = !!userData && userData.isFetching === false;
   const hasCustomer = isUserLoaded && !!userData.id;
 

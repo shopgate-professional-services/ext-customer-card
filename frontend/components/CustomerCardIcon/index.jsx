@@ -1,6 +1,8 @@
 import React from 'react';
 import { Icon } from '@shopgate/engage/components';
-import { iconSvgContent } from '../../config';
+import config from '../../config.json';
+
+const { iconSvgContent } = config;
 
 /**
  * Renders a customer card icon using the configured SVG content.

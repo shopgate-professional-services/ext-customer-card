@@ -2,7 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CustomerCardIcon from '../../components/CustomerCardIcon';
 import withNavigationHandler from '../../hocs/withNavigationHandler';
-import { textMenuEntry } from '../../config';
+import config from '../../config.json';
+
+const { textMenuEntry } = config;
 
 /**
  * Navigation menu item for the customer card in the GMD theme.
