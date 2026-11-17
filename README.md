@@ -9,7 +9,13 @@ The card is only available for logged-in customers. Guests and customers without
 
 ## Requirements
 
-PWA 7.32.0 or newer. The card takes its colors from the app theme, which is available from this version on.
+PWA 7.35.0 or newer, the first version with a configurable tab bar. Until 7.35.0 is released, the extension declares `@shopgate/engage` `>=7.35.0-alpha.3`; with the release the range moves to `>=7.35.0` and the `@shopgate` dev dependencies to `^7.35.0`, with a fresh lockfile.
+
+## Tab bar
+
+The extension registers the navigation action `@shopgate-project/customer-card/card`. It never adds itself to the tab bar: merchants add "Customer card" ("Kundenkarte" in a German admin) to the tab bar items in the Theme Config of the admin. The tab shows `textMenuEntry` as plain text and the icon `@shopgate-project/customer-card/card`, which merchants can replace in the icon library. It opens the customer card, where the tab bar stays hidden.
+
+> **Upgrading from 2.x:** version 2 added its tab after Cart by itself. When version 3 goes live in a shop, the shop's tab bar list has to contain the customer card, otherwise the tab disappears. The admin only offers the item once the shop's app runs version 3, so how the list gets the item before the deployment is still being decided.
 
 ## Design
 
@@ -46,17 +52,26 @@ Every color and the logo can be overridden with the `override…` configs below.
 | `overrideColorText` | Text color on the card. Not set: taken from the app theme. | `null` |
 | `overrideColorCode` | Color of the QR code or barcode. Not set: black. | `null` |
 | `overrideColorCodeBackground` | Background of the code area. Not set: white. | `null` |
-| `iconSvgContent` | Raw SVG markup for the menu and tab bar icon. | Card icon |
+| `iconSvgContent` | Raw SVG markup for the icon of the menu entries, and the default icon of the tab. Merchants replace the tab icon in the icon library of the admin. | Card icon |
 
 ### Function
 | Key | Description | Default |
 |------|------------|---------|
 | `useQrCodeMode` | `true`: QR code with the customer's e-mail address. `false`: barcode with the external customer number. | `true` |
 | `barcodeFormat` | Barcode format, e.g. `CODE128` or `MSI`. Only used in barcode mode. | `CODE128` |
-| `showTabBarEntry` | Show the customer card entry in the tab bar. | `true` |
 
 ### Upgrading from 1.x
 Version 2.0 renamed the color and logo configs to `override…` and no longer reads the old keys `colorCardBackground`, `colorText`, `colorCode`, `colorCodeBackground` and `logoUrl`. Values stored for them in 1.x are ignored, so the card uses the app theme right away. To keep a custom color or logo, set the matching `override…` config.
+
+## Development
+
+Install the dependencies of `frontend` from the lockfile and run the checks there:
+
+```shell
+npm ci
+npm run lint
+npm test
+```
 
 ## About Shopgate
 

@@ -1,27 +1,20 @@
-import React, { useCallback } from 'react';
-import { useNavigation } from '@shopgate/engage/core';
-import { CUSTOMER_CARD } from '../constants';
+import React from 'react';
+import { useOpenCustomerCard } from '../hooks/useOpenCustomerCard';
 
 /**
- * HOC that enhances a component with navigation logic based on the login status.
+ * HOC that passes a handler to the component which opens the customer card.
  * @param {React.ComponentType} Component - The component to be enhanced with navigation logic.
  * @returns {React.ComponentType} - The wrapped component with `onNavigate`.
  */
 const withNavigationHandler = (Component) => {
   /**
+   * @param {Object} props The props of the component.
    * @returns {React.Element}
    */
-  const WrappedComponent = ({ ...props }) => {
-    const { push } = useNavigation();
+  const WrappedComponent = (props) => {
+    const onNavigate = useOpenCustomerCard();
 
-    const handleNavigation = useCallback(() => {
-      push({ pathname: CUSTOMER_CARD });
-    }, [push]);
-
-    return <Component
-      {...props}
-      onNavigate={handleNavigation}
-    />;
+    return <Component {...props} onNavigate={onNavigate} />;
   };
 
   return WrappedComponent;

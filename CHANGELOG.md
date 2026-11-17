@@ -1,5 +1,34 @@
 # Changelog
 
+## 3.0.0
+
+### BREAKING
+
+- Requires PWA 7.35.0 or newer (`@shopgate/engage >=7.35.0-alpha.3` until 7.35.0 is released; then the
+  range moves to `>=7.35.0`).
+- The customer card no longer adds itself to the tab bar. It is a tab bar item that merchants add in
+  the Theme Config of the admin ("Customer card" / "Kundenkarte"). A shop's tab bar list has to
+  contain the item when this version goes live there, at the position it has today (after Cart),
+  otherwise the tab disappears. How the list gets the item before the deployment is still open: the
+  admin only offers items of extensions the shop's app already runs
+  ([CURB-6408](https://jira.shopgate.guru/browse/CURB-6408)).
+- Removed the configuration key `showTabBarEntry`. Merchants show or hide the tab in the admin.
+
+### Changed
+
+- The tab uses the merchant text `textMenuEntry` as before and opens the customer card, where the tab
+  bar stays hidden.
+- The icon of `iconSvgContent` is registered as the extension icon `@shopgate-project/customer-card/card`,
+  so merchants can replace the tab icon in the icon library of the admin. The menu entries keep
+  showing `iconSvgContent`.
+
+### Development
+
+- Updated the frontend setup: `@shopgate/engage`, `@shopgate/eslint-config` and
+  `@shopgate/pwa-unit-test` as dev dependencies, React 17, a `lint` script, a Jest config and specs,
+  and a `jsconfig.json` for the editor. `react-redux` is declared, since the card page imports it.
+- `package-lock.json` is tracked.
+
 ## 2.0.0
 
 ### BREAKING

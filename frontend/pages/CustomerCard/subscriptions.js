@@ -1,8 +1,13 @@
-import { routeWillEnter$, routeWillLeave$, appDidStart$ } from '@shopgate/engage/core/streams';
+import {
+  routeWillEnter$, routeWillLeave$, appDidStart$, appWillStart$,
+} from '@shopgate/engage/core/streams';
 import { setBrightness, resetBrightness } from '@shopgate/engage/core/commands';
 import { authRoutes, configuration } from '@shopgate/engage/core/collections';
 import { LOGIN_PATH, TAB_BAR_PATTERNS_BLACK_LIST } from '@shopgate/engage/core/constants';
+import { registerIcons } from '@shopgate/engage/icons';
 import { CUSTOMER_CARD } from '../../constants';
+import { icons } from '../../icons';
+import { registerNavigationActions } from '../../navigationActions';
 
 const customerCardRouteWillEnter$ = routeWillEnter$
   .filter(({ action }) => action.route.pattern === CUSTOMER_CARD);
@@ -11,6 +16,11 @@ const customerCardRouteWillLeave$ = routeWillLeave$
   .filter(({ action }) => action.route.pattern === CUSTOMER_CARD);
 
 export default (subscribe) => {
+  subscribe(appWillStart$, () => {
+    registerIcons(icons);
+    registerNavigationActions();
+  });
+
   subscribe(appDidStart$, () => {
     authRoutes.set(CUSTOMER_CARD, LOGIN_PATH);
     configuration.update(TAB_BAR_PATTERNS_BLACK_LIST, blacklist => [...blacklist, CUSTOMER_CARD]);
