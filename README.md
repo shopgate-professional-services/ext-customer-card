@@ -13,9 +13,9 @@ PWA 7.35.0 or newer, the first version with a configurable tab bar. Until 7.35.0
 
 ## Tab bar
 
-The extension registers the navigation action `@shopgate-project/customer-card/card`. It never adds itself to the tab bar: merchants add "Customer card" ("Kundenkarte" in a German admin) to the tab bar items in the Theme Config of the admin. The tab shows `textMenuEntry` as plain text and the icon `@shopgate-project/customer-card/card`, which merchants can replace in the icon library. It opens the customer card, where the tab bar stays hidden.
+The extension registers the navigation action `@shopgate-project/customer-card/card`. It never adds itself to the tab bar: merchants add "Customer card" ("Kundenkarte" in a German admin) to the tab bar items in the Theme Config of the admin. The tab shows `textMenuEntry` as plain text and the icon `@shopgate-project/customer-card/card`. Menu entries that show an icon use the same one. Merchants replace it in the icon library of the admin; by default it is a card. It opens the customer card, where the tab bar stays hidden.
 
-> **Upgrading from 2.x:** version 2 added its tab after Cart by itself. When version 3 goes live in a shop, the shop's tab bar list has to contain the customer card, otherwise the tab disappears. The admin only offers the item once the shop's app runs version 3, so how the list gets the item before the deployment is still being decided.
+> **Upgrading from 2.x:** version 2 added its tab after Cart by itself. After the update to version 3, the tab is missing until the merchant adds "Customer card" to the tab bar items in the admin and publishes. The admin offers the item once the shop's app runs version 3. The setting `iconSvgContent` is gone; a custom icon is set in the icon library instead.
 
 ## Design
 
@@ -52,7 +52,6 @@ Every color and the logo can be overridden with the `override…` configs below.
 | `overrideColorText` | Text color on the card. Not set: taken from the app theme. | `null` |
 | `overrideColorCode` | Color of the QR code or barcode. Not set: black. | `null` |
 | `overrideColorCodeBackground` | Background of the code area. Not set: white. | `null` |
-| `iconSvgContent` | Raw SVG markup for the icon of the menu entries, and the default icon of the tab. Merchants replace the tab icon in the icon library of the admin. | Card icon |
 
 ### Function
 | Key | Description | Default |

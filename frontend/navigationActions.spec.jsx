@@ -7,10 +7,7 @@ import { registerNavigationActions } from './navigationActions';
 
 const mockPush = jest.fn();
 
-jest.mock('./config.json', () => ({
-  iconSvgContent: '<path d="M0 0h24v24H0z"/>',
-  textMenuEntry: 'Meine Karte',
-}), { virtual: true });
+jest.mock('./config.json', () => ({ textMenuEntry: 'Meine Karte' }), { virtual: true });
 jest.mock('@shopgate/engage/navigation', () => ({ registerNavigationAction: jest.fn() }));
 jest.mock('@shopgate/engage/core/selectors', () => ({ getCurrentPathname: jest.fn() }));
 jest.mock('@shopgate/engage/core/hooks', () => ({
@@ -72,7 +69,7 @@ describe('navigation actions', () => {
   it('uses the registered customer card icon for the tab', () => {
     const [[, , meta]] = registerNavigationAction.mock.calls;
 
-    expect(icons[meta.tabBar.icon]).toBe('<path d="M0 0h24v24H0z"/>');
+    expect(icons[meta.tabBar.icon]).toMatch(/^<svg /);
   });
 
   it('resolves an available action with the merchant text and the tab icon', () => {
