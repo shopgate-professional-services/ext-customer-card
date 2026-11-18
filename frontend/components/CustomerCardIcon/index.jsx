@@ -1,16 +1,14 @@
 import React from 'react';
-import { Icon } from '@shopgate/engage/components';
-import config from '../../config.json';
-
-const { iconSvgContent } = config;
+import ThemeIcon from '@shopgate/engage/icons/components/ThemeIcon';
+import { CUSTOMER_CARD_ICON } from '../../constants';
 
 /**
- * Renders a customer card icon using the configured SVG content.
- * @param {Object} props - The component props.
+ * Renders the customer card icon, which merchants can replace in the icon library.
+ * @param {Object} props The props of the icon.
  * @returns {JSX.Element}
  */
 const CustomerCardIcon = props => (
-  <Icon content={iconSvgContent} {...props} />
+  <ThemeIcon name={CUSTOMER_CARD_ICON} {...props} />
 );
 
 export default CustomerCardIcon;
