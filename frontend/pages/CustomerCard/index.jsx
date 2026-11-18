@@ -8,11 +8,11 @@ import { GlobalStyles, makeStyles, keyframes } from '@shopgate/engage/styles';
 import appConfig from '@shopgate/pwa-common/helpers/config';
 import { getExternalCustomerNumber, getUserData, LOGIN_PATH } from '@shopgate/engage/user';
 import { CUSTOMER_CARD } from '../../constants';
+import { textMenuEntry } from '../../texts';
 import config from '../../config.json';
 
 const {
   textHeadline,
-  textMenuEntry,
   useQrCodeMode,
   barcodeFormat,
   textAboveCode,

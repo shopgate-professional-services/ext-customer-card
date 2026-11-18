@@ -3,9 +3,7 @@ import { getCurrentPathname } from '@shopgate/engage/core/selectors';
 import { registerNavigationAction } from '@shopgate/engage/navigation';
 import { useOpenCustomerCard } from './hooks/useOpenCustomerCard';
 import { CUSTOMER_CARD, CUSTOMER_CARD_ACTION, CUSTOMER_CARD_ICON } from './constants';
-import config from './config.json';
-
-const { textMenuEntry } = config;
+import { textMenuEntry } from './texts';
 
 /**
  * Resolves the customer card action: opens the card and is active on its page.

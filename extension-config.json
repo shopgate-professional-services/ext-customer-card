@@ -58,7 +58,7 @@
       "default": "Customer Card",
       "params": {
         "type": "string",
-        "label": "Text for the customer card menu entry."
+        "label": "Text of the customer card in the tab bar and the menu, and title of its page."
       }
     },
     "textHeadline": {

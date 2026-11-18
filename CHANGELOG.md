@@ -11,9 +11,7 @@
   missing until the merchant adds it there and publishes. The admin offers the item once the shop's
   app runs this version ([CURB-6408](https://jira.shopgate.guru/browse/CURB-6408)).
 - Removed the configuration key `showTabBarEntry`. Merchants show or hide the tab in the admin.
-- Removed the configuration key `iconSvgContent`. Its default card icon is now the extension icon
-  `@shopgate-project/customer-card/card`, which merchants replace in the icon library of the admin.
-  A value stored for `iconSvgContent` is no longer read.
+- Removed the configuration key `iconSvgContent`. A custom icon is now configured in the admin.
 
 ### Changed
 

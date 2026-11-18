@@ -13,9 +13,9 @@ PWA 7.35.0 or newer, the first version with a configurable tab bar. Until 7.35.0
 
 ## Tab bar
 
-The extension registers the navigation action `@shopgate-project/customer-card/card`. It never adds itself to the tab bar: merchants add "Customer card" ("Kundenkarte" in a German admin) to the tab bar items in the Theme Config of the admin. The tab shows `textMenuEntry` as plain text and the icon `@shopgate-project/customer-card/card`. Menu entries that show an icon use the same one. Merchants replace it in the icon library of the admin; by default it is a card. It opens the customer card, where the tab bar stays hidden.
+The extension registers the navigation action `@shopgate-project/customer-card/card`. It never adds itself to the tab bar: merchants add "Customer card" ("Kundenkarte" in a German admin) to the tab bar items in the Theme Config of the admin. Only the iOS theme has the configurable tab bar. The tab shows `textMenuEntry` as plain text and the icon `@shopgate-project/customer-card/card`. Menu entries that show an icon use the same one. Merchants replace it in the icon library of the admin; by default it is a card. It opens the customer card, where the tab bar stays hidden.
 
-> **Upgrading from 2.x:** version 2 added its tab after Cart by itself. After the update to version 3, the tab is missing until the merchant adds "Customer card" to the tab bar items in the admin and publishes. The admin offers the item once the shop's app runs version 3. The setting `iconSvgContent` is gone; a custom icon is set in the icon library instead.
+> **Upgrading from 2.x:** version 2 added its tab after Cart by itself. After the update to version 3, the tab is missing until the merchant adds "Customer card" to the tab bar items in the admin and publishes. The admin offers the item once the shop's app runs version 3. The setting `iconSvgContent` is gone; a custom icon is now configured in the admin.
 
 ## Design
 
@@ -37,7 +37,7 @@ Every color and the logo can be overridden with the `override…` configs below.
 ### Texts
 | Key | Description | Default |
 |------|------------|---------|
-| `textMenuEntry` | Text for the customer card menu entry. | `Customer Card` |
+| `textMenuEntry` | Text of the customer card in the tab bar and the menu, and title of its page. | `Customer Card` |
 | `textHeadline` | Headline of the customer card. | `Your customer card` |
 | `textAboveCode` | HTML text above the code. Placeholders: `{mail}`, `{firstName}`, `{lastName}` | `<p>{firstName} {lastName}</p>` |
 | `textBelowCode` | HTML text below the code. Placeholders: `{mail}`, `{firstName}`, `{lastName}` | `<p>Some information such as user's e-mail address: <strong>{mail}</strong></p>` |

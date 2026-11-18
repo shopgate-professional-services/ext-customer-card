@@ -1,28 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CustomerCardIcon from '../../components/CustomerCardIcon';
-import withNavigationHandler from '../../hocs/withNavigationHandler';
-import config from '../../config.json';
-
-const { textMenuEntry } = config;
+import { useOpenCustomerCard } from '../../hooks/useOpenCustomerCard';
+import { textMenuEntry } from '../../texts';
 
 /**
  * Navigation menu item for the customer card in the GMD theme.
  * @param {React.ElementType} props.Item - The menu item component to render.
- * @param {Function} props.onNavigate - The navigation handler function.
  * @returns {JSX.Element}
  */
-const NavMenuCustomerCard = ({ Item, onNavigate }) => (
-  <Item
-    label={textMenuEntry}
-    icon={CustomerCardIcon}
-    onClick={onNavigate}
-  />
-);
+const NavMenuCustomerCard = ({ Item }) => {
+  const onClick = useOpenCustomerCard();
+
+  return (
+    <Item
+      label={textMenuEntry}
+      icon={CustomerCardIcon}
+      onClick={onClick}
+    />
+  );
+};
 
 NavMenuCustomerCard.propTypes = {
   Item: PropTypes.elementType.isRequired,
-  onNavigate: PropTypes.func.isRequired,
 };
 
-export default withNavigationHandler(NavMenuCustomerCard);
+export default NavMenuCustomerCard;
